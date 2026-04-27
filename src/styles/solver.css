@@ -1,0 +1,51 @@
+/* solver.css — Scanner validation error banner (Sprint 4) */
+
+/* ── Validation error banner shown in scanner when cube state is invalid ─── */
+
+.scanner-validation-error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: color-mix(in srgb, var(--color-error) 12%, transparent);
+  border-bottom: 2px solid var(--color-error);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-error);
+  z-index: 20;
+  position: relative;
+  animation: scanner-error-slide-in var(--duration-normal) var(--ease-out);
+}
+
+@keyframes scanner-error-slide-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.scanner-validation-error-icon {
+  flex-shrink: 0;
+  font-size: var(--text-base);
+  line-height: 1.5;
+}
+
+.scanner-validation-error-message {
+  flex: 1;
+  line-height: 1.5;
+}
+
+.scanner-validation-error-dismiss {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 var(--space-1);
+  font-size: var(--text-base);
+  color: var(--color-error);
+  opacity: 0.7;
+  line-height: 1.5;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.scanner-validation-error-dismiss:hover {
+  opacity: 1;
+}

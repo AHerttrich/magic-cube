@@ -10,6 +10,9 @@ import { createLandingView } from './landing.js';
 import { createScannerView } from './scanner.js';
 import { createFaceConfirmView } from './faceConfirm.js';
 import { createFaceEditorView } from './faceEditor.js';
+import { createValidatingView } from './validating.js';
+import { createSolvingView } from './solving.js';
+import { createSolutionView } from './solution.js';
 import { faceSequence } from '../scanner/faceSequence.js';
 
 /**
@@ -71,7 +74,10 @@ export function createApp(root) {
       }
 
       case 'Scanning': {
-        const view = createScannerView();
+        const validationError = _params.errors
+          ? _params.errors.map((e) => e.message).join(' ')
+          : null;
+        const view = createScannerView({ validationError });
         mainEl.appendChild(view.container);
         view.mount();
         currentView = view;
@@ -92,6 +98,32 @@ export function createApp(root) {
         const colors = _params.colors ?? [['white','white','white'],['white','white','white'],['white','white','white']];
         const face   = _params.face   ?? faceSequence.getCurrentFace();
         const view = createFaceEditorView({ colors, face });
+        mainEl.appendChild(view.container);
+        view.mount();
+        currentView = view;
+        break;
+      }
+
+      case 'Validating': {
+        const view = createValidatingView();
+        mainEl.appendChild(view.container);
+        view.mount();
+        currentView = view;
+        break;
+      }
+
+      case 'Solving': {
+        const stateString = _params.stateString ?? '';
+        const view = createSolvingView({ stateString });
+        mainEl.appendChild(view.container);
+        view.mount();
+        currentView = view;
+        break;
+      }
+
+      case 'Solution': {
+        const solution = _params.solution ?? null;
+        const view = createSolutionView({ solution });
         mainEl.appendChild(view.container);
         view.mount();
         currentView = view;

@@ -11,9 +11,10 @@ import { faceSequence, FACE_ORDER } from '../scanner/faceSequence.js';
 import { createCubePreview } from './cubePreview.js';
 
 /**
+ * @param {{ validationError?: string|null }} [options]
  * @returns {{ container: HTMLElement, mount(): void, unmount(): void }}
  */
-export function createScannerView() {
+export function createScannerView({ validationError = null } = {}) {
   const container = document.createElement('div');
   container.className = 'scanner';
   container.setAttribute('data-testid', 'scanner-root');
@@ -52,6 +53,14 @@ export function createScannerView() {
     </div>
 
     ${isCalibrated ? '<div class="scanner-calibrated-badge" data-testid="scanner-calibrated-badge" aria-label="Calibrated">Calibrated ✓</div>' : ''}
+
+    ${validationError ? `
+    <div class="scanner-validation-error" data-testid="scanner-validation-error" role="alert">
+      <span class="scanner-validation-error-icon" aria-hidden="true">⚠️</span>
+      <span class="scanner-validation-error-message" data-testid="scanner-validation-error-message">${validationError}</span>
+      <button class="scanner-validation-error-dismiss" data-testid="scanner-validation-error-dismiss" type="button" aria-label="Dismiss error">✕</button>
+    </div>
+    ` : ''}
 
     <!-- Video feed -->
     <div class="scanner-video-wrap">
@@ -209,6 +218,17 @@ export function createScannerView() {
       if (results[i]) {
         preview.updateFace(FACE_ORDER[i].label, results[i], i);
       }
+    }
+
+    // Dismiss validation error banner if present
+    const errorDismissBtn = container.querySelector('[data-testid="scanner-validation-error-dismiss"]');
+    if (errorDismissBtn) {
+      const onDismiss = () => {
+        const banner = container.querySelector('[data-testid="scanner-validation-error"]');
+        if (banner) { banner.remove(); }
+      };
+      errorDismissBtn.addEventListener('click', onDismiss);
+      cleanups.push(() => errorDismissBtn.removeEventListener('click', onDismiss));
     }
 
     // Back button → cancel scanning

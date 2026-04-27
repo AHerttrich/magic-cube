@@ -15,10 +15,15 @@ import './styles/faceConfirm.css';
 import './styles/faceEditor.css';
 import './styles/calibration.css';
 import './styles/cubePreview.css';
+import './styles/validating.css';
+import './styles/solving.css';
+import './styles/solution.css';
+import './styles/solver.css';
 
 // ── App shell ──────────────────────────────────────────────────────────────
 import { createApp } from './ui/app.js';
 import { calibrationEngine } from './cv/calibration.js';
+import { solverEngine } from './solver/solver.js';
 
 const root = document.getElementById('app');
 if (!root) {
@@ -27,5 +32,11 @@ if (!root) {
 
 // Load persisted calibration profile on startup
 calibrationEngine.loadSavedProfile();
+
+// Warm up the solver in the background so pruning tables are ready
+// by the time the user finishes scanning all 6 faces
+solverEngine.init().catch(() => {
+  // Init failure will be surfaced when the user reaches the Solving view
+});
 
 createApp(root);

@@ -1,0 +1,204 @@
+/* Solution — move sequence display after the cube is solved */
+
+/* ── Layout ──────────────────────────────────────────────────────────────── */
+
+.solution-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100dvh;
+  padding: var(--space-8) var(--space-4) var(--space-12);
+  gap: var(--space-8);
+  background: var(--color-bg);
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+
+.solution-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: 36rem;
+  text-align: center;
+}
+
+.solution-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+}
+
+/* ── Stats row ───────────────────────────────────────────────────────────── */
+
+.solution-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.solution-stat {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  border: 1px solid currentColor;
+}
+
+.solution-stat--moves {
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+}
+
+.solution-stat--gods {
+  background: var(--color-surface-elevated);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border);
+}
+
+.solution-stat--time {
+  background: var(--color-surface-elevated);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border);
+}
+
+/* ── Efficiency bar ──────────────────────────────────────────────────────── */
+
+.solution-efficiency {
+  width: 100%;
+  max-width: 24rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.solution-efficiency-bar {
+  width: 100%;
+  height: 0.5rem;
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.solution-efficiency-fill {
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: var(--radius-full);
+  transition: width var(--duration-slow) var(--ease-out);
+}
+
+.solution-efficiency-label {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  text-align: center;
+}
+
+/* ── Moves section ───────────────────────────────────────────────────────── */
+
+.solution-moves-section {
+  width: 100%;
+  max-width: 36rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-md);
+}
+
+.solution-moves-heading {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.solution-moves {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.solution-move {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.solution-move--empty {
+  color: var(--color-success);
+  background: var(--color-success-subtle);
+  border-color: var(--color-success);
+  font-family: var(--font-body);
+}
+
+.solution-moves-notation {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  word-break: break-all;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+}
+
+.solution-moves-notation code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+/* ── Action buttons ──────────────────────────────────────────────────────── */
+
+.solution-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: center;
+  width: 100%;
+  max-width: 36rem;
+}
+
+.solution-btn-home {
+  min-width: 8rem;
+}
+
+.solution-btn-another {
+  min-width: 12rem;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .solution-moves-section {
+    padding: var(--space-4);
+  }
+
+  .solution-title {
+    font-size: var(--text-2xl);
+  }
+
+  .solution-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
