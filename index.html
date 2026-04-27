@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO -->
+    <title>Magic Cube Solver — Solve Any Twisty Puzzle From a Photo</title>
+    <meta name="description" content="Photograph your Rubik's Cube and get an optimal solution instantly. Free, private, and entirely in your browser — no data ever leaves your device." />
+    <meta name="keywords" content="Rubik's Cube, cube solver, twisty puzzle, optimal solution, browser app" />
+    <meta name="author" content="Alexander Herttrich" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Magic Cube Solver" />
+    <meta property="og:description" content="Solve any twisty puzzle from a photo — instantly, free." />
+    <meta property="og:image" content="/assets/og-image.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Magic Cube Solver" />
+    <meta name="twitter:description" content="Solve any twisty puzzle from a photo — instantly, free." />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self' blob:; media-src 'self' blob:;" />
+
+    <!-- Google Fonts preconnect (crossorigin required for COOP/COEP) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      crossorigin
+    />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

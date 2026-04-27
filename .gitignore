@@ -1,0 +1,56 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+
+# Vite / Build
+dist/
+dist-ssr/
+*.local
+.vite/
+
+# Firebase
+.firebase/
+firebase-debug.log*
+.firebaserc.bak
+
+# OS
+.DS_Store
+Thumbs.db
+*.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Test Coverage
+coverage/
+.nyc_output/
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+
+# Claude Code CLI
+CLAUDE.md
+CLAUDE_HANDOFF.md
+.claude-task-brief.md
+.claude-result.md
+.claude/
+
+# Playwright MCP
+.playwright-mcp/
