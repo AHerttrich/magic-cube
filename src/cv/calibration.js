@@ -246,3 +246,6 @@ export class CalibrationEngine {
     return { ...this._thresholds };
   }
 }
+
+/** Singleton instance shared across the application. */
+export const calibrationEngine = new CalibrationEngine();

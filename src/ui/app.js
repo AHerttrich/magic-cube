@@ -7,6 +7,10 @@ import { eventBus, Events } from '../core/eventBus.js';
 import { stateMachine } from '../core/stateMachine.js';
 import { createThemeToggle } from './themeToggle.js';
 import { createLandingView } from './landing.js';
+import { createScannerView } from './scanner.js';
+import { createFaceConfirmView } from './faceConfirm.js';
+import { createFaceEditorView } from './faceEditor.js';
+import { faceSequence } from '../scanner/faceSequence.js';
 
 /**
  * Mounts the full application into the given root element.
@@ -66,8 +70,36 @@ export function createApp(root) {
         break;
       }
 
+      case 'Scanning': {
+        const view = createScannerView();
+        mainEl.appendChild(view.container);
+        view.mount();
+        currentView = view;
+        break;
+      }
+
+      case 'FaceConfirm': {
+        const result = _params.result ?? faceSequence.getPendingResult() ?? { colors: [], overallConfidence: 0, warnings: [] };
+        const face   = _params.face   ?? faceSequence.getCurrentFace();
+        const view = createFaceConfirmView({ result, face });
+        mainEl.appendChild(view.container);
+        view.mount();
+        currentView = view;
+        break;
+      }
+
+      case 'FaceEdit': {
+        const colors = _params.colors ?? [['white','white','white'],['white','white','white'],['white','white','white']];
+        const face   = _params.face   ?? faceSequence.getCurrentFace();
+        const view = createFaceEditorView({ colors, face });
+        mainEl.appendChild(view.container);
+        view.mount();
+        currentView = view;
+        break;
+      }
+
       default: {
-        // Placeholder for views not yet implemented in Sprint 1
+        // Placeholder for views not yet implemented
         const placeholder = document.createElement('div');
         placeholder.className = 'coming-soon';
         placeholder.setAttribute('data-testid', `view-${stateName.toLowerCase()}-placeholder`);

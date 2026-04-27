@@ -123,4 +123,10 @@ export const Events = {
   // UI
   UI_THEME_CHANGED: 'ui:theme-changed',
   UI_NAVIGATE: 'ui:navigate',
+
+  // Scanner
+  SCANNER_CAMERA_READY: 'scanner:camera-ready',
+  SCANNER_CAMERA_ERROR: 'scanner:camera-error',
+  SCANNER_FACE_CONFIRMED: 'scanner:face-confirmed',
+  SCANNER_SEQUENCE_COMPLETE: 'scanner:sequence-complete',
 };

@@ -9,6 +9,8 @@
  */
 import { Scene } from '../viz/scene.js';
 import { createCubeMesh } from '../viz/cubeMesh.js';
+import { stateMachine, Action } from '../core/stateMachine.js';
+import { faceSequence } from '../scanner/faceSequence.js';
 
 /**
  * Creates the landing page view.
@@ -39,13 +41,10 @@ export function createLandingView() {
           <button
             class="btn btn-primary"
             data-testid="landing-cta-scan"
-            disabled
-            aria-disabled="true"
-            title="Scanner coming in Sprint 2"
+            type="button"
           >
             📸 Scan My Cube
           </button>
-          <span class="landing-cta-soon">Scanner — coming soon</span>
         </div>
       </div>
     </section>
@@ -99,6 +98,9 @@ export function createLandingView() {
   /** @type {Scene|null} */
   let scene = null;
 
+  /** @type {(() => void)[]} */
+  const cleanups = [];
+
   function mount() {
     const canvasContainer = container.querySelector('.landing-canvas-container');
     if (!canvasContainer) { return; }
@@ -114,6 +116,23 @@ export function createLandingView() {
     scene.add(cubeMesh);
     scene.mount(canvasContainer);
     scene.start();
+
+    // Wire the "Scan My Cube" CTA button
+    const ctaBtn = container.querySelector('[data-testid="landing-cta-scan"]');
+    if (ctaBtn) {
+      const onScan = () => {
+        // Reset face sequence for a fresh scan, then jump to PuzzleSelect → Scanning
+        faceSequence.reset();
+        try {
+          stateMachine.transition(Action.SELECT_PUZZLE);
+          stateMachine.transition(Action.START_SCAN);
+        } catch {
+          // Already in a valid state — ignore
+        }
+      };
+      ctaBtn.addEventListener('click', onScan);
+      cleanups.push(() => ctaBtn.removeEventListener('click', onScan));
+    }
   }
 
   function unmount() {
@@ -121,6 +140,8 @@ export function createLandingView() {
       scene.dispose();
       scene = null;
     }
+    for (const fn of cleanups) { fn(); }
+    cleanups.length = 0;
   }
 
   return { container, mount, unmount };

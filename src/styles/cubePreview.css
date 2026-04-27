@@ -1,0 +1,183 @@
+/* Cube Preview — unfolded net showing scanned faces */
+
+/* ── Container ───────────────────────────────────────────────────────────── */
+
+.cube-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.cube-preview-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── Unfolded net grid ───────────────────────────────────────────────────── */
+
+/*
+   Net layout (cross):
+       [U]
+   [L] [F] [R] [B]
+       [D]
+*/
+.cube-preview-net {
+  --face-size: 2.75rem;
+  --cell-gap: 2px;
+
+  display: grid;
+  grid-template-columns: repeat(4, var(--face-size));
+  grid-template-rows: repeat(3, var(--face-size));
+  gap: var(--cell-gap);
+}
+
+/* Row 1: U face in column 2 */
+.cube-preview-face[data-face="U"] {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+/* Row 2: L, F, R, B */
+.cube-preview-face[data-face="L"] {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.cube-preview-face[data-face="F"] {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.cube-preview-face[data-face="R"] {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.cube-preview-face[data-face="B"] {
+  grid-column: 4;
+  grid-row: 2;
+}
+
+/* Row 3: D face in column 2 */
+.cube-preview-face[data-face="D"] {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+/* ── Individual face slot ────────────────────────────────────────────────── */
+
+.cube-preview-face {
+  width: var(--face-size);
+  height: var(--face-size);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  cursor: default;
+  transition: transform var(--duration-fast) var(--ease-spring),
+              box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.cube-preview-face[data-state="scanned"] {
+  cursor: pointer;
+}
+
+.cube-preview-face[data-state="scanned"]:hover,
+.cube-preview-face[data-state="scanned"]:focus-visible {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-md);
+  z-index: 1;
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+/* ── Placeholder (unscanned) ─────────────────────────────────────────────── */
+
+.cube-preview-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--color-surface-elevated);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 1px;
+  padding: 2px;
+}
+
+.cube-preview-placeholder-cell {
+  background: var(--color-border);
+  border-radius: 1px;
+}
+
+/* ── Tile grid (scanned face) ────────────────────────────────────────────── */
+
+.cube-preview-tiles {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 1px;
+  padding: 2px;
+  background: var(--color-border);
+}
+
+.cube-preview-tile {
+  border-radius: 1px;
+}
+
+/* Tile color mapping */
+.cube-preview-tile[data-color="white"]  { background: var(--cube-white);  }
+.cube-preview-tile[data-color="yellow"] { background: var(--cube-yellow); }
+.cube-preview-tile[data-color="red"]    { background: var(--cube-red);    }
+.cube-preview-tile[data-color="orange"] { background: var(--cube-orange); }
+.cube-preview-tile[data-color="blue"]   { background: var(--cube-blue);   }
+.cube-preview-tile[data-color="green"]  { background: var(--cube-green);  }
+
+/* ── Appear animation ────────────────────────────────────────────────────── */
+
+@keyframes face-appear {
+  0%   { opacity: 0; transform: scale(0.7); }
+  70%  { transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.cube-preview-face[data-state="scanned"] {
+  animation: face-appear var(--duration-normal) var(--ease-spring) both;
+}
+
+/* ── Face label badge ────────────────────────────────────────────────────── */
+
+.cube-preview-face-badge {
+  position: absolute;
+  bottom: 1px;
+  right: 2px;
+  font-size: 0.45rem;
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-bold);
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  line-height: 1;
+}
+
+/* Wrap face in position:relative so badge works */
+.cube-preview-face {
+  position: relative;
+}
+
+/* ── Responsive / larger variant ─────────────────────────────────────────── */
+
+.cube-preview.is-large .cube-preview-net {
+  --face-size: 4rem;
+}
+
+@media (min-width: 768px) {
+  .cube-preview-net {
+    --face-size: 3.5rem;
+  }
+}

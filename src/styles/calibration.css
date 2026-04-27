@@ -1,0 +1,228 @@
+/* Calibration — manual color reference capture screen */
+
+/* ── Layout ──────────────────────────────────────────────────────────────── */
+
+.calibration {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100dvh;
+  padding: var(--space-6) var(--space-4) var(--space-8);
+  gap: var(--space-6);
+  background: var(--color-bg);
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+
+.calibration-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 32rem;
+}
+
+.calibration-title {
+  flex: 1;
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  text-align: center;
+}
+
+.calibration-subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  text-align: center;
+  max-width: 28rem;
+  line-height: var(--leading-normal);
+}
+
+/* ── Camera preview ──────────────────────────────────────────────────────── */
+
+.calibration-preview {
+  position: relative;
+  width: min(90vw, 320px);
+  aspect-ratio: 4/3;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 2px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.calibration-preview-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Center crosshair for aiming at a color swatch */
+.calibration-preview-reticle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 3rem;
+  height: 3rem;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+/* ── Color targets grid ──────────────────────────────────────────────────── */
+
+.calibration-targets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 28rem;
+}
+
+.calibration-target {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-spring);
+}
+
+.calibration-target:hover,
+.calibration-target:focus-visible {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.calibration-target.is-captured {
+  border-color: var(--color-success);
+  background: var(--color-success-subtle);
+}
+
+.calibration-target-swatch {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-md);
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+}
+
+.calibration-target-swatch[data-color="white"]  { background: var(--cube-white);  border-color: var(--color-border-strong); }
+.calibration-target-swatch[data-color="yellow"] { background: var(--cube-yellow); }
+.calibration-target-swatch[data-color="red"]    { background: var(--cube-red);    }
+.calibration-target-swatch[data-color="orange"] { background: var(--cube-orange); }
+.calibration-target-swatch[data-color="blue"]   { background: var(--cube-blue);   }
+.calibration-target-swatch[data-color="green"]  { background: var(--cube-green);  }
+
+.calibration-target-label {
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  text-transform: capitalize;
+  font-family: var(--font-body);
+}
+
+.calibration-target-check {
+  font-size: var(--text-base);
+  min-height: 1.2em;
+  line-height: 1;
+}
+
+/* Captured checkmark */
+.calibration-target.is-captured .calibration-target-check::before {
+  content: '✓';
+  color: var(--color-success);
+}
+
+/* ── Progress bar ────────────────────────────────────────────────────────── */
+
+.calibration-progress {
+  width: 100%;
+  max-width: 28rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.calibration-progress-label {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  display: flex;
+  justify-content: space-between;
+}
+
+.calibration-progress-bar {
+  height: 0.375rem;
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.calibration-progress-fill {
+  height: 100%;
+  background: var(--gradient-accent);
+  border-radius: var(--radius-full);
+  transition: width var(--duration-normal) var(--ease-out);
+}
+
+/* ── Actions ─────────────────────────────────────────────────────────────── */
+
+.calibration-actions {
+  display: flex;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 28rem;
+  margin-top: auto;
+}
+
+.calibration-btn-reset {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.calibration-btn-reset:hover { background: var(--color-error-subtle); color: var(--color-error); }
+
+.calibration-btn-done {
+  flex: 2;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--gradient-cta);
+  border: none;
+  color: var(--color-text-inverse);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.calibration-btn-done:hover { opacity: 0.85; }
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (min-width: 640px) {
+  .calibration-targets {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
